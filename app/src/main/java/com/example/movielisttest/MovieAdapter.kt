@@ -4,8 +4,9 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movielisttest.model.MovieResponse
 
-class MovieAdapter(private val MovieList: List<String>) : RecyclerView.Adapter<MovieViewHHolder>() {
+class MovieAdapter(private val MovieList: List<MovieResponse>) : RecyclerView.Adapter<MovieViewHHolder>() {
 
     /**
      * Used to create the ViewHolder.
@@ -30,9 +31,11 @@ class MovieAdapter(private val MovieList: List<String>) : RecyclerView.Adapter<M
 
     override fun onBindViewHolder(holder: MovieViewHHolder, position: Int) {
         if (position % 2 == 0) {
-            holder.itemView.setBackgroundColor(Color.BLUE)
+            holder.itemView.setBackgroundColor(Color.CYAN)
+            //holder.itemView.setTextColor(Color.parseColor("#000000"));
+
         }
-        holder.tvMovieTilte.text = MovieList[position]
+        holder.tvMovieTilte.text = MovieList[position].title
     }
 
     override fun getItemCount(): Int {
