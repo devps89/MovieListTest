@@ -15,7 +15,7 @@ class MovieNetwork {
     companion object {
         const val BASE_URL = "https://gist.githubusercontent.com/"
         const val ENDPOINT =
-            "AntoninoAN/f3fa4b2260c51a5f80904c747009289e/raw/6576691177f6b093afd3bf2bbc5e936b62d50721/MovieGist"
+            "AntoninoAN/f3fa4b2260c51a5f80904c747009289e/raw/a1403b33a4c0d9a40d1901f6aeba065abc748a38/MovieGist"
         val uriPath = Uri.parse("$BASE_URL$ENDPOINT")
         val url = URL(uriPath.toString())
     }
@@ -57,6 +57,8 @@ class MovieNetwork {
         return builder.toString()
 
     }
+
+
 
     fun parseToMovieResponse(deserialize: String): List<MovieResponse> {
         val response = JSONArray(deserialize)

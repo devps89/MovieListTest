@@ -1,26 +1,59 @@
 package com.example.movielisttest
 
-import android.net.wifi.p2p.WifiP2pManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
+import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.movielisttest.model.MovieResponse
+import com.example.movielisttest.model.remote.MovieNetwork
+
+private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var rvMovieList: RecyclerView
+    //we configure the handler to wait for he message from the thread
+    private val movieHandler =
+        object : Handler() {
+            override fun handleMessage(msg: Message) {
+                super.handleMessage(msg)
+                when (msg.what) {
+                    1 -> {
+                        val listOfMovies: List<MovieResponse> =
+                            msg.obj as List<MovieResponse>
+                        Log.d(TAG, "handleMessage: $listOfMovies")
+                    }
+                    else -> {
+                        msg.data?.getString("KEY")?.let {
+                            Toast.makeText(
+                                this@MainActivity,
+                                it, Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate: main  ${Thread.currentThread().name}" )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViiews()
+        getMovieList()
     }
 
     private fun initViiews() {
         rvMovieList = findViewById(R.id.movie_list)
-        rvMovieList.adapter = MovieAdapter(generateDats())
+        //rvMovieList.adapter = MovieAdapter(getMovieList())
         rvMovieList.layoutManager = createLayoutMannager()
     }
 
@@ -40,10 +73,31 @@ class MainActivity : AppCompatActivity() {
         return staggeredGridLayoutManager;
     }
 
-    private fun generateDats(): List<String> {
-        return (1..9).map {
-            "Star Wars episode $it"
-        }
+    private fun getMovieList() {
+        val network = MovieNetwork()
+        Thread(Runnable {
+            Log.d(TAG, "getMovieList1: ${Thread.currentThread().name}")
+            val message = Message()
+            message.what = 1
+            message.obj = network.getMovieList()
+            movieHandler.sendMessage(message)//here we are linking the handler with the thread, with the message
+//            network.getMovieList()
+        }).start()
+
+
+        Thread(Runnable {
+            Log.d(TAG, "getMovieList2:  ${Thread.currentThread().name}")
+            movieHandler.sendMessage(
+                Message().apply {
+                    data = Bundle().apply {
+                        what = 2
+                        putString("KEY", "${Thread.currentThread().name}")
+                    }
+                }
+            )
+        }).start()
+
+//        return ex.call()
     }
 }
 
