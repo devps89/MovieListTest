@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,12 +13,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.movielisttest.model.MovieResponse
 import com.example.movielisttest.model.remote.MovieNetwork
+import com.squareup.picasso.Picasso
 
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var rvMovieList: RecyclerView
+
+
     //we configure the handler to wait for he message from the thread
     private val movieHandler =
         object : Handler() {
@@ -45,11 +49,12 @@ class MainActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.d(TAG, "onCreate: main  ${Thread.currentThread().name}" )
+        Log.d(TAG, "onCreate: main  ${Thread.currentThread().name}")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViiews()
         getMovieList()
+//        rvMovieList.adapter = MovieAdapter(getMovieListNoThread())
     }
 
     private fun initViiews() {
@@ -74,13 +79,18 @@ class MainActivity : AppCompatActivity() {
         return linearLayoutManager;
     }
 
+    private fun getMovieListNoThread(): List<MovieResponse> = MovieNetwork().getMovieList()
+
+
     private fun getMovieList() {
         val network = MovieNetwork()
         Thread(Runnable {
             Log.d(TAG, "getMovieList1: ${Thread.currentThread().name}")
             val message = Message()
             message.what = 1
+            Log.d(TAG, "getMovieList: llamar a getMovieList")
             message.obj = network.getMovieList()
+            Log.d(TAG, "getMovieList: lista obtenida")
             movieHandler.sendMessage(message)//here we are linking the handler with the thread, with the message
 //            network.getMovieList()
         }).start()

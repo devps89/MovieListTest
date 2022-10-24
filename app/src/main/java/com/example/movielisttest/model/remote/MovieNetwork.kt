@@ -1,6 +1,7 @@
 package com.example.movielisttest.model.remote
 
 import android.net.Uri
+import android.util.Log
 import com.example.movielisttest.model.MovieResponse
 import org.json.JSONArray
 import java.io.BufferedReader
@@ -9,6 +10,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
+private const val TAG = "MovieNetwork"
 class MovieNetwork {
     //https://gist.githubusercontent.com/
     //AntoninoAN/f3fa4b2260c51a5f80904c747009289e/raw/6576691177f6b093afd3bf2bbc5e936b62d50721/MovieGist
@@ -21,6 +23,7 @@ class MovieNetwork {
     }
 
     fun getMovieList(): List<MovieResponse> {
+        Log.d(TAG, "getMovieList: Entra en getMovieList")
         val httpUrlConnection = url.openConnection() as HttpURLConnection
 
         httpUrlConnection.readTimeout = 10000
@@ -29,7 +32,7 @@ class MovieNetwork {
         httpUrlConnection.doInput = true
 
         httpUrlConnection.connect()
-
+        Log.d(TAG, "getMovieList: establece coneccion")
         return httpUrlConnection.inputStream.run {
             deserialize(this)
         }.let {
@@ -61,6 +64,7 @@ class MovieNetwork {
 
 
     fun parseToMovieResponse(deserialize: String): List<MovieResponse> {
+        println(deserialize)
         val response = JSONArray(deserialize)
         val listOfMovies = mutableListOf<MovieResponse>()
         for (index in 0 until response.length()) {
