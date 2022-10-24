@@ -1,11 +1,17 @@
 package com.example.movielisttest
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movielisttest.model.MovieResponse
+import com.squareup.picasso3.Picasso
 
-class MovieAdapter(private val MovieList: List<String>) : RecyclerView.Adapter<MovieViewHHolder>() {
+private const val TAG = "MovieAdapter"
+class MovieAdapter(private val dataset: List<MovieResponse>) :
+    RecyclerView.Adapter<MovieViewHHolder>() {
 
     /**
      * Used to create the ViewHolder.
@@ -29,13 +35,25 @@ class MovieAdapter(private val MovieList: List<String>) : RecyclerView.Adapter<M
     }
 
     override fun onBindViewHolder(holder: MovieViewHHolder, position: Int) {
+        Log.d(TAG, "onBindViewHolder: ")
         if (position % 2 == 0) {
             holder.itemView.setBackgroundColor(Color.BLUE)
         }
-        holder.tvMovieTilte.text = MovieList[position]
+        holder.tvMovieTilte.text = dataset[position].title
+        holder.tvMovieYear.text = dataset[position].releaseYear.toString()
+        holder.tvMovieGenre.text = dataset[position].genre.toString()
+        holder.rbMovieRating.rating = dataset[position].rating
+        holder.rbMovieRating.numStars = 5
+
+        holder.ivShowDetails.setOnClickListener { holder.grMovieDetails.visibility = View.VISIBLE }
+        Picasso.Builder(holder.itemView.context)
+            .build().load(dataset[position].image)
+            .into(holder.ivMoviePoster)
+
+
     }
 
     override fun getItemCount(): Int {
-        return MovieList.size
+        return dataset.size
     }
 }

@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
                         val listOfMovies: List<MovieResponse> =
                             msg.obj as List<MovieResponse>
                         Log.d(TAG, "handleMessage: $listOfMovies")
+                        rvMovieList.adapter = MovieAdapter(listOfMovies)
                     }
                     else -> {
                         msg.data?.getString("KEY")?.let {
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
 
 
-        return staggeredGridLayoutManager;
+        return linearLayoutManager;
     }
 
     private fun getMovieList() {
