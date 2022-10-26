@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.Group
 import androidx.recyclerview.widget.RecyclerView
 
@@ -16,6 +17,7 @@ class MovieViewHHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     val rbMovieRating: RatingBar = view.findViewById(R.id.rb_movie_rating)
     val grMovieDetails: Group = view.findViewById(R.id.gr_movie_details)
     val ivShowDetails: ImageView = view.findViewById(R.id.iv_show_details)
+    val crMovie: CardView = view.findViewById(R.id.cr_movie_card)
 
 
 }

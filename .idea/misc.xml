@@ -3,8 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/_035180_square_icon.xml" value="0.218" />
+        <entry key="app/src/main/res/drawable/card_bg.xml" value="0.137" />
+        <entry key="app/src/main/res/drawable/card_bg2.xml" value="0.1125" />
+        <entry key="app/src/main/res/drawable/down_arrow.xml" value="0.1905" />
+        <entry key="app/src/main/res/drawable/movie_prev_img.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.36041666666666666" />
-        <entry key="app/src/main/res/layout/movie_item_layout.xml" value="0.3986663818359375" />
+        <entry key="app/src/main/res/layout/item_recycler.xml" value="0.2234375" />
+        <entry key="app/src/main/res/layout/movie_item_layout.xml" value="0.24838504832102343" />
       </map>
     </option>
   </component>
